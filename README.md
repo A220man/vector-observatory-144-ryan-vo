@@ -1,2 +1,6 @@
-# vector-observatory-144-ryan-vo
-Ryan Vo | 🪨 why use many token when few token do trick. Viral skill + proxy for coding agents that cuts 65% of tokens by talking like a caveman.
+# vector-observatory-144-ryan-vo — Ryan Vo
+
+> Work in progress. This checkpoint may be incomplete or fail tests. See PLAN.md and STATUS.md before use.
+
+
+Maintainer: Ryan Vo <ryandtvo@gmail.com>

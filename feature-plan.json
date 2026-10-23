@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "current_feature": "project-skeleton",
+  "features": [
+    {
+      "id": "project-skeleton",
+      "title": "Project Skeleton & Core Infrastructure",
+      "status": "in_progress",
+      "acceptance": [
+        "FastAPI backend with main.py entrypoint",
+        "React + TypeScript + Vite frontend",
+        "SQLite persistent storage with models",
+        "Dockerfiles for backend and frontend",
+        "docker-compose.yaml with Keycloak",
+        "CI workflow for backend and frontend tests",
+        "README with install/run/test steps",
+        "portfolio.json with required metadata",
+        "LICENSE, CHANGELOG, .gitignore, .env.example"
+      ],
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/api/routes.py",
+        "backend/app/models/__init__.py",
+        "backend/app/services/__init__.py",
+        "backend/app/core/config.py",
+        "backend/requirements.txt",
+        "frontend/package.json",
+        "frontend/src/main.tsx",
+        "frontend/src/App.tsx",
+        "compose.yaml",
+        "README.md",
+        "portfolio.json"
+      ],
+      "tests": [
+        "backend/tests/test_health.py",
+        "backend/tests/test_models.py",
+        "frontend/src/App.test.tsx"
+      ]
+    },
+    {
+      "id": "token-compression-engine",
+      "title": "Token Compression Engine (Caveman-style)",
+      "status": "planned",
+      "acceptance": [
+        "Deterministic compression algorithm that reduces tokens by ~65%",
+        "Caveman-speak transformation (simplified vocabulary)",
+        "Recovery mechanism for compressed content",
+        "API endpoints for compress/recover/analyze",
+        "Metrics tracking (tokens before/after/saved)"
+      ],
+      "implementation": [
+        "backend/app/services/compression.py",
+        "backend/app/api/compression.py",
+        "backend/app/models/compression.py",
+        "frontend/src/components/CompressionDashboard.tsx",
+        "frontend/src/api/compression.ts"
+      ],
+      "tests": [
+        "backend/tests/test_compression.py",
+        "frontend/src/components/CompressionDashboard.test.tsx"
+      ]
+    },
+    {
+      "id": "mcp-proxy-integration",
+      "title": "MCP Proxy Integration for Agent Compression",
+      "status": "planned",
+      "acceptance": [
+        "MCP server implementation for tool retrieval",
+        "Proxy mode that intercepts agent requests",
+        "Print mode vs interactive mode handling",
+        "Session tracking and statistics"
+      ],
+      "implementation": [
+        "backend/app/services/mcp_proxy.py",
+        "backend/app/api/mcp.py",
+        "frontend/src/components/MCPStatus.tsx"
+      ],
+      "tests": [
+        "backend/tests/test_mcp_proxy.py"
+      ]
+    },
+    {
+      "id": "auth-oidc-keycloak",
+      "title": "OIDC Authentication with Keycloak",
+      "status": "planned",
+      "acceptance": [
+        "Keycloak realm configuration",
+        "Authorization code flow with PKCE",
+        "Role-based access (viewer/operator/admin)",
+        "Protected API endpoints",
+        "Frontend login/logout flow"
+      ],
+      "implementation": [
+        "backend/app/core/auth.py",
+        "backend/app/api/auth.py",
+        "frontend/src/components/Auth.tsx",
+        "keycloak/realm-export.json"
+      ],
+      "tests": [
+        "backend/tests/test_auth.py"
+      ]
+    },
+    {
+      "id": "llm-adapters",
+      "title": "Multi-provider LLM Adapters",
+      "status": "planned",
+      "acceptance": [
+        "OpenAI-compatible adapter (LiteLLM/OpenRouter/Ollama)",
+        "Anthropic messages adapter",
+        "Gemini generateContent adapter",
+        "Configurable provider/model/endpoint",
+        "Redacted error handling"
+      ],
+      "implementation": [
+        "backend/app/services/llm_adapters.py",
+        "backend/app/api/llm.py"
+      ],
+      "tests": [
+        "backend/tests/test_llm_adapters.py"
+      ]
+    },
+    {
+      "id": "workflows-dashboard",
+      "title": "Three Core Workflows Dashboard",
+      "status": "planned",
+      "acceptance": [
+        "Workflow 1: Token Compression Analysis",
+        "Workflow 2: Agent Session Monitoring",
+        "Workflow 3: Compression Policy Management",
+        "Loading/error/empty states",
+        "Export functionality"
+      ],
+      "implementation": [
+        "frontend/src/components/WorkflowsDashboard.tsx",
+        "frontend/src/components/Workflow1Compression.tsx",
+        "frontend/src/components/Workflow2Monitoring.tsx",
+        "frontend/src/components/Workflow3Policy.tsx"
+      ],
+      "tests": [
+        "frontend/src/components/WorkflowsDashboard.test.tsx"
+      ]
+    }
+  ]
+}

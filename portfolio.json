@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "vector-observatory-144-ryan-vo",
+  "owner": "A220man",
+  "email": "ryandtvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: vector-observatory-144-ryan-vo",
+  "workflows": [
+    "Analyze and compress agent token usage with caveman-style vocabulary reduction",
+    "Monitor MCP proxy sessions for print-mode vs interactive compression effectiveness",
+    "Manage compression policies and profiles for different agent frameworks"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}
