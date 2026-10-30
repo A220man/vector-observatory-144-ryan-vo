@@ -22,7 +22,6 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
         <nav style={styles.nav}>
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
             const Icon = item.icon;
             return (
               <NavLink

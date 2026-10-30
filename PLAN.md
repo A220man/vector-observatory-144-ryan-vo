@@ -10,7 +10,7 @@ project-skeleton
 
 ### project-skeleton — Project Skeleton & Core Infrastructure
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - FastAPI backend with main.py entrypoint
@@ -23,7 +23,7 @@ Acceptance:
 - portfolio.json with required metadata
 - LICENSE, CHANGELOG, .gitignore, .env.example
 
-Implementation: `backend/app/main.py`, `backend/app/api/routes.py`, `backend/app/models/__init__.py`, `backend/app/services/__init__.py`, `backend/app/core/config.py`, `backend/requirements.txt`, `frontend/package.json`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `compose.yaml`, `README.md`, `portfolio.json`
+Implementation: `backend/app/main.py`, `backend/app/api/routes.py`, `backend/app/models/__init__.py`, `backend/app/services/__init__.py`, `backend/app/services/compression.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/requirements.txt`, `frontend/package.json`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `frontend/src/vite-env.d.ts`, `frontend/src/components/Layout.tsx`, `frontend/src/components/Dashboard.tsx`, `frontend/src/components/Compression.tsx`, `frontend/src/components/Sessions.tsx`, `frontend/src/components/Policies.tsx`, `frontend/src/components/Docs.tsx`, `frontend/src/api/client.ts`, `frontend/src/api/index.ts`, `frontend/src/types/api.ts`, `frontend/vite.config.ts`, `frontend/tsconfig.json`, `compose.yaml`, `README.md`, `portfolio.json`
 
 Tests: `backend/tests/test_health.py`, `backend/tests/test_models.py`, `frontend/src/App.test.tsx`
 

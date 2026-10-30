@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Loader2, AlertCircle, Search, Filter, Download, ChevronLeft, ChevronRight, Eye, Clock } from 'lucide-react';
+import { Loader2, AlertCircle, Search, Filter, ChevronLeft, ChevronRight, Eye, Clock } from 'lucide-react';
 import { api, type SessionResponse, type CompressionResponse } from '@/api';
 
 export function Sessions() {
