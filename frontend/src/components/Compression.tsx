@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Loader2, Copy, Check, AlertCircle, FileText, Download, Zap } from 'lucide-react';
+import { Loader2, Copy, Check, AlertCircle, Download, Zap } from 'lucide-react';
 import { api, type CompressionRequest, type CompressionResponse } from '@/api';
 
 const SAMPLE_TEXT = `/**
