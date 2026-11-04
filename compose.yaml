@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./data/vector-observatory.db
+      - APP_ENV=development
+      - FRONTEND_URL=http://localhost:5173
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_REALM=vector-observatory
+      - KEYCLOAK_CLIENT_ID=vector-observatory-client
+      - KEYCLOAK_ADMIN_USER=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - MCP_PROXY_ENABLED=true
+      - MCP_PROXY_PORT=8787
+    volumes:
+      - ./backend/data:/app/data
+    depends_on:
+      - keycloak
+    networks:
+      - vector-observatory-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - backend
+    networks:
+      - vector-observatory-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    command: start-dev --import-realm
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=dev-file
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    networks:
+      - vector-observatory-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+networks:
+  vector-observatory-network:
+    driver: bridge
+
+volumes:
+  keycloak-data:
