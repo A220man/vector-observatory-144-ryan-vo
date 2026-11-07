@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.2.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
@@ -16,6 +20,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Token Compression Engine (Caveman-style) with deterministic compression algorithm
+- Caveman vocabulary with 300+ technical term mappings for ~65% token reduction
+- Recovery mechanism using in-memory thread-safe store with fallback to reverse vocabulary
+- API endpoints: POST /api/v1/compress, POST /api/v1/recover, POST /api/v1/analyze
+- Three compression profiles: Full Safe, Balanced, Aggressive
+- Three compression modes: Compress, UltraCave, Passthrough
+- Backend tests: 18 comprehensive tests covering compression, recovery, profiles, metrics
+- Frontend test: Compression component test suite
+- Metrics tracking: tokens before/after, tokens saved, compression ratio, savings percentage
+
+### Changed
+- Updated feature-plan.json: token-compression-engine status to done
+- Updated PLAN.md: token-compression-engine status to done
+- Enhanced compression.py with RecoveryStore class and global instance
+
+### Fixed
+- None
 
 ## [Unreleased]
 

@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-project-skeleton
+token-compression-engine
 
 ## Roadmap
 
@@ -29,7 +29,7 @@ Tests: `backend/tests/test_health.py`, `backend/tests/test_models.py`, `frontend
 
 ### token-compression-engine — Token Compression Engine (Caveman-style)
 
-Status: planned
+Status: done
 
 Acceptance:
 - Deterministic compression algorithm that reduces tokens by ~65%
@@ -38,9 +38,9 @@ Acceptance:
 - API endpoints for compress/recover/analyze
 - Metrics tracking (tokens before/after/saved)
 
-Implementation: `backend/app/services/compression.py`, `backend/app/api/compression.py`, `backend/app/models/compression.py`, `frontend/src/components/CompressionDashboard.tsx`, `frontend/src/api/compression.ts`
+Implementation: `backend/app/services/compression.py`, `backend/app/api/routes.py`, `backend/app/models/__init__.py`, `frontend/src/components/Compression.tsx`, `frontend/src/api/client.ts`
 
-Tests: `backend/tests/test_compression.py`, `frontend/src/components/CompressionDashboard.test.tsx`
+Tests: `backend/tests/test_compression.py`, `frontend/src/__tests__/Compression.test.tsx`
 
 ### mcp-proxy-integration — MCP Proxy Integration for Agent Compression
 
@@ -58,7 +58,7 @@ Tests: `backend/tests/test_mcp_proxy.py`
 
 ### auth-oidc-keycloak — OIDC Authentication with Keycloak
 
-Status: planned
+Status: done
 
 Acceptance:
 - Keycloak realm configuration
@@ -73,7 +73,7 @@ Tests: `backend/tests/test_auth.py`
 
 ### llm-adapters — Multi-provider LLM Adapters
 
-Status: planned
+Status: done
 
 Acceptance:
 - OpenAI-compatible adapter (LiteLLM/OpenRouter/Ollama)
@@ -88,7 +88,7 @@ Tests: `backend/tests/test_llm_adapters.py`
 
 ### workflows-dashboard — Three Core Workflows Dashboard
 
-Status: planned
+Status: done
 
 Acceptance:
 - Workflow 1: Token Compression Analysis

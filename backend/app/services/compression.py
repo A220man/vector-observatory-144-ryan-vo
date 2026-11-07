@@ -1,6 +1,7 @@
 import hashlib
 import json
 import re
+import threading
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 
@@ -411,6 +412,43 @@ CAVEMAN_VOCABULARY: Dict[str, str] = {
 REVERSE_VOCABULARY: Dict[str, str] = {v: k for k, v in CAVEMAN_VOCABULARY.items()}
 
 
+# Thread-safe recovery store
+class RecoveryStore:
+    """In-memory store for original texts keyed by recovery reference."""
+    
+    def __init__(self):
+        self._store: Dict[str, str] = {}
+        self._lock = threading.Lock()
+    
+    def put(self, recovery_ref: str, original_text: str) -> None:
+        with self._lock:
+            self._store[recovery_ref] = original_text
+    
+    def get(self, recovery_ref: str) -> Optional[str]:
+        with self._lock:
+            return self._store.get(recovery_ref)
+    
+    def delete(self, recovery_ref: str) -> bool:
+        with self._lock:
+            if recovery_ref in self._store:
+                del self._store[recovery_ref]
+                return True
+            return False
+    
+    def clear(self) -> None:
+        with self._lock:
+            self._store.clear()
+
+
+# Global recovery store instance
+_recovery_store = RecoveryStore()
+
+
+def get_recovery_store() -> RecoveryStore:
+    """Get the global recovery store instance."""
+    return _recovery_store
+
+
 @dataclass
 class CompressionResult:
     original_text: str
@@ -472,6 +510,9 @@ class CavemanCompressor:
         }
         recovery_ref = f"ccr://ccr_obj_{hashlib.sha256(json.dumps(recovery_data, sort_keys=True).encode()).hexdigest()[:24]}"
 
+        # Store original text for recovery
+        _recovery_store.put(recovery_ref, text)
+
         return CompressionResult(
             original_text=text,
             compressed_text=compressed,
@@ -483,10 +524,16 @@ class CavemanCompressor:
         )
 
     def recover(self, compressed_text: str, recovery_ref: str) -> Optional[str]:
-        """Attempt to recover original text from compressed (advisory only)."""
-        # In a real implementation, this would look up the recovery store
-        # For now, we return None to indicate recovery requires the store
-        return None
+        """Attempt to recover original text from compressed using recovery store."""
+        # Look up original text from recovery store
+        original = _recovery_store.get(recovery_ref)
+        if original is not None:
+            return original
+        # Fallback: try reverse vocabulary (lossy)
+        recovered = compressed_text
+        for caveman, original_term in REVERSE_VOCABULARY.items():
+            recovered = re.sub(rf"\b{re.escape(caveman)}\b", original_term, recovered, flags=re.IGNORECASE)
+        return recovered if recovered != compressed_text else None
 
 
 # Profile configurations
