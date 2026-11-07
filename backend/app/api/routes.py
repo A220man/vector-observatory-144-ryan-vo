@@ -466,6 +466,97 @@ async def get_policy(policy_id: int, db: AsyncSession = Depends(get_db)):
         updated_at=policy.updated_at,
     )
 
+# Recovery and Analysis endpoints
+class RecoveryRequest(BaseModel):
+    recovery_ref: str = Field(..., min_length=1)
+    compressed_text: Optional[str] = None
 
-import hashlib
-import json
+
+class RecoveryResponse(BaseModel):
+    recovery_ref: str
+    recovered_text: Optional[str]
+    success: bool
+
+
+class AnalysisRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=100000)
+    mode: CompressionMode = CompressionMode.COMPRESS
+    profile: CompressionProfile = CompressionProfile.FULL_SAFE
+
+
+class AnalysisResponse(BaseModel):
+    original_text: str
+    estimated_tokens: int
+    estimated_compressed_tokens: int
+    estimated_savings: int
+    estimated_ratio: float
+    would_compress: bool
+    sample_compressed: str
+
+
+@router.post("/recover", response_model=RecoveryResponse)
+async def recover_text(request: RecoveryRequest):
+    """Recover original text from compressed using recovery reference."""
+    from app.services.compression import get_compressor, get_recovery_store, CompressionMode, CompressionProfile
+    
+    # Try to get from recovery store first
+    store = get_recovery_store()
+    original = store.get(request.recovery_ref)
+    
+    if original is not None:
+        return RecoveryResponse(
+            recovery_ref=request.recovery_ref,
+            recovered_text=original,
+            success=True
+        )
+    
+    # Fallback: try reverse vocabulary if compressed_text provided
+    if request.compressed_text:
+        compressor = get_compressor(CompressionMode.COMPRESS, CompressionProfile.FULL_SAFE)
+        recovered = compressor.recover(request.compressed_text, request.recovery_ref)
+        return RecoveryResponse(
+            recovery_ref=request.recovery_ref,
+            recovered_text=recovered,
+            success=recovered is not None
+        )
+    
+    return RecoveryResponse(
+        recovery_ref=request.recovery_ref,
+        recovered_text=None,
+        success=False
+    )
+
+
+@router.post("/analyze", response_model=AnalysisResponse)
+async def analyze_text(request: AnalysisRequest):
+    """Analyze text compression potential without storing."""
+    from app.services.compression import get_compressor
+    
+    compressor = get_compressor(request.mode, request.profile)
+    
+    # Estimate tokens
+    estimated_tokens = compressor._estimate_tokens(request.text)
+    
+    # Simulate compression (without storing)
+    if request.mode == CompressionMode.PASSTHROUGH:
+        compressed = request.text
+        estimated_compressed = estimated_tokens
+        estimated_savings = 0
+        estimated_ratio = 1.0
+    else:
+        compressed = request.text
+        for pattern, replacement in compressor.patterns:
+            compressed = pattern.sub(replacement, compressed)
+        estimated_compressed = compressor._estimate_tokens(compressed)
+        estimated_savings = estimated_tokens - estimated_compressed
+        estimated_ratio = estimated_compressed / estimated_tokens if estimated_tokens > 0 else 1.0
+    
+    return AnalysisResponse(
+        original_text=request.text,
+        estimated_tokens=estimated_tokens,
+        estimated_compressed_tokens=estimated_compressed,
+        estimated_savings=max(0, estimated_savings),
+        estimated_ratio=estimated_ratio,
+        would_compress=request.mode != CompressionMode.PASSTHROUGH and estimated_savings > 0,
+        sample_compressed=compressed[:500] + ("..." if len(compressed) > 500 else "")
+    )

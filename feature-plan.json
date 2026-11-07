@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "project-skeleton",
+  "current_feature": "token-compression-engine",
   "features": [
     {
       "id": "project-skeleton",
@@ -54,7 +54,7 @@
     {
       "id": "token-compression-engine",
       "title": "Token Compression Engine (Caveman-style)",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Deterministic compression algorithm that reduces tokens by ~65%",
         "Caveman-speak transformation (simplified vocabulary)",
@@ -64,14 +64,14 @@
       ],
       "implementation": [
         "backend/app/services/compression.py",
-        "backend/app/api/compression.py",
-        "backend/app/models/compression.py",
-        "frontend/src/components/CompressionDashboard.tsx",
-        "frontend/src/api/compression.ts"
+        "backend/app/api/routes.py",
+        "backend/app/models/__init__.py",
+        "frontend/src/components/Compression.tsx",
+        "frontend/src/api/client.ts"
       ],
       "tests": [
         "backend/tests/test_compression.py",
-        "frontend/src/components/CompressionDashboard.test.tsx"
+        "frontend/src/__tests__/Compression.test.tsx"
       ]
     },
     {
@@ -96,7 +96,7 @@
     {
       "id": "auth-oidc-keycloak",
       "title": "OIDC Authentication with Keycloak",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Keycloak realm configuration",
         "Authorization code flow with PKCE",
@@ -117,7 +117,7 @@
     {
       "id": "llm-adapters",
       "title": "Multi-provider LLM Adapters",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "OpenAI-compatible adapter (LiteLLM/OpenRouter/Ollama)",
         "Anthropic messages adapter",
@@ -136,7 +136,7 @@
     {
       "id": "workflows-dashboard",
       "title": "Three Core Workflows Dashboard",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Workflow 1: Token Compression Analysis",
         "Workflow 2: Agent Session Monitoring",
