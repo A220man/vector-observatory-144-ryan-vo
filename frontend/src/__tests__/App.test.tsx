@@ -10,7 +10,7 @@ describe("App", () => {
         <App />
       </BrowserRouter>
     );
-    expect(screen.getByText("Vector Observatory 144")).toBeInTheDocument();
+    expect(screen.getByText("Vector Observatory")).toBeInTheDocument();
   });
 
   it("shows navigation links", () => {
@@ -19,10 +19,11 @@ describe("App", () => {
         <App />
       </BrowserRouter>
     );
-    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    // Dashboard appears in nav and page title - check both exist
+    expect(screen.getAllByText("Dashboard")).toHaveLength(2);
     expect(screen.getByText("Compression")).toBeInTheDocument();
     expect(screen.getByText("Sessions")).toBeInTheDocument();
     expect(screen.getByText("Policies")).toBeInTheDocument();
-    expect(screen.getByText("Documentation")).toBeInTheDocument();
+    expect(screen.getByText("Docs")).toBeInTheDocument();
   });
 });

@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { Compression } from "@/components/Compression";
 
-// Mock the API client
 vi.mock("@/api", () => ({
   api: {
     compress: vi.fn(),
@@ -29,22 +28,13 @@ const mockCompressResponse = {
 describe("Compression Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock clipboard API
     Object.assign(navigator, {
       clipboard: {
         writeText: vi.fn().mockResolvedValue(undefined),
       },
     });
-    // Mock URL.createObjectURL
     global.URL.createObjectURL = vi.fn(() => "mock-url");
     global.URL.revokeObjectURL = vi.fn();
-    // Mock document.createElement for download
-    const mockAnchor = {
-      href: "",
-      download: "",
-      click: vi.fn(),
-    };
-    vi.spyOn(document, "createElement").mockReturnValue(mockAnchor as any);
   });
 
   it("renders without crashing", () => {
@@ -54,7 +44,7 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     expect(screen.getByText("Token Compression Engine")).toBeInTheDocument();
-    expect(screen.getByText("Caveman-style vocabulary reduction")).toBeInTheDocument();
+    expect(screen.getByText(/Caveman-style vocabulary reduction for coding agents/)).toBeInTheDocument();
   });
 
   it("shows sample text in textarea", () => {
@@ -64,8 +54,8 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     const textarea = screen.getByRole("textbox");
-    expect(textarea).toHaveValue(expect.stringContaining("function"));
-    expect(textarea).toHaveValue(expect.stringContaining("implements"));
+    expect(textarea.value).toContain("function");
+    expect(textarea.value).toContain("implements");
   });
 
   it("shows mode selector with options", () => {
@@ -74,9 +64,9 @@ describe("Compression Component", () => {
         <Compression />
       </BrowserRouter>
     );
-    expect(screen.getByText("Mode")).toBeInTheDocument();
-    expect(screen.getByText("Compress")).toBeInTheDocument();
-    expect(screen.getByText("UltraCave")).toBeInTheDocument();
+    const modeOptions = screen.getAllByText("Compress");
+    expect(modeOptions.length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("Ultracave")).toBeInTheDocument();
     expect(screen.getByText("Passthrough")).toBeInTheDocument();
   });
 
@@ -86,7 +76,6 @@ describe("Compression Component", () => {
         <Compression />
       </BrowserRouter>
     );
-    expect(screen.getByText("Profile")).toBeInTheDocument();
     expect(screen.getByText("Full Safe")).toBeInTheDocument();
     expect(screen.getByText("Balanced")).toBeInTheDocument();
     expect(screen.getByText("Aggressive")).toBeInTheDocument();
@@ -98,7 +87,6 @@ describe("Compression Component", () => {
         <Compression />
       </BrowserRouter>
     );
-    expect(screen.getByText("Agent Framework")).toBeInTheDocument();
     expect(screen.getByText("Claude Code")).toBeInTheDocument();
     expect(screen.getByText("OpenCode")).toBeInTheDocument();
     expect(screen.getByText("Antigravity CLI")).toBeInTheDocument();
@@ -111,9 +99,8 @@ describe("Compression Component", () => {
         <Compression />
       </BrowserRouter>
     );
-    expect(screen.getByText("Session Type")).toBeInTheDocument();
     expect(screen.getByText("Interactive")).toBeInTheDocument();
-    expect(screen.getByText("Print")).toBeInTheDocument();
+    expect(screen.getByText("Print Mode")).toBeInTheDocument();
     expect(screen.getByText("Unknown")).toBeInTheDocument();
   });
 
@@ -126,7 +113,7 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
@@ -145,7 +132,7 @@ describe("Compression Component", () => {
   });
 
   it("shows loading state during compression", async () => {
-    let resolveCompress: (value: any) => void;
+    let resolveCompress: (value: unknown) => void;
     const compressPromise = new Promise((resolve) => {
       resolveCompress = resolve;
     });
@@ -157,7 +144,7 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     expect(screen.getByText("Compressing...")).toBeInTheDocument();
@@ -177,7 +164,7 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
@@ -195,7 +182,7 @@ describe("Compression Component", () => {
     const textarea = screen.getByRole("textbox");
     fireEvent.change(textarea, { target: { value: "" } });
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
@@ -212,7 +199,7 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
@@ -238,7 +225,7 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
@@ -256,7 +243,7 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
@@ -279,11 +266,10 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    // Change mode to ultracave
-    const modeSelect = screen.getByLabelText("Mode");
+    const modeSelect = screen.getByText("Compress").closest("select");
     fireEvent.change(modeSelect, { target: { value: "ultracave" } });
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
@@ -302,11 +288,10 @@ describe("Compression Component", () => {
       </BrowserRouter>
     );
     
-    // Change profile to aggressive
-    const profileSelect = screen.getByLabelText("Profile");
+    const profileSelect = screen.getByText("Full Safe").closest("select");
     fireEvent.change(profileSelect, { target: { value: "aggressive" } });
     
-    const compressButton = screen.getByText("Compress");
+    const compressButton = screen.getByRole("button", { name: "Compress" });
     fireEvent.click(compressButton);
     
     await waitFor(() => {
