@@ -33,7 +33,8 @@
     "globals": "^15.9.0"
   },
   "author": {
+    "name": "Ryan Vo",
     "email": "ryandtvo@gmail.com",
-    "name": "Ryan Vo"
+    "url": "https://github.com/A220man"
   }
 }
