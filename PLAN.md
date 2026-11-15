@@ -44,7 +44,7 @@ Tests: `backend/tests/test_compression.py`, `frontend/src/__tests__/Compression.
 
 ### mcp-proxy-integration — MCP Proxy Integration for Agent Compression
 
-Status: planned
+Status: done
 
 Acceptance:
 - MCP server implementation for tool retrieval

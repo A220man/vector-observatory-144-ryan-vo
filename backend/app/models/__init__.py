@@ -16,7 +16,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship, declarative_mixin
 from typing import Optional
 
-from app.core.database import Base
+from backend.app.core.database import Base
 
 
 class CompressionMode(str, enum.Enum):

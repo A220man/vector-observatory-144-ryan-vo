@@ -5,7 +5,7 @@ import threading
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 
-from app.models import CompressionMode, CompressionProfile, AgentFramework, SessionType
+from backend.app.models import CompressionMode, CompressionProfile, AgentFramework, SessionType
 
 
 # Caveman vocabulary - simplified words that replace common technical terms
