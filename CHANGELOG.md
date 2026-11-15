@@ -1,24 +1,28 @@
 # Changelog
 
-## 1.4.0 — work-in-progress checkpoint
+## 1.5.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+
+## 1.4.1 — MCP Proxy Integration
+
+MC Proxy integration for agent compression with tool retrieval, session management, and HTTP API endpoints. Known issues: STATUS.md.
 
 ## 1.3.0 — work-in-progress checkpoint
 
-Partial code published for continued development. Known issues: STATUS.md.
+MC Proxy integration for agent compression with tool retrieval, session management, and HTTP API endpoints. Known issues: STATUS.md.
 
 ## 1.2.0 — work-in-progress checkpoint
 
-Partial code published for continued development. Known issues: STATUS.md.
+MC Proxy integration for agent compression with tool retrieval, session management, and HTTP API endpoints. Known issues: STATUS.md.
 
 ## 1.1.0 — work-in-progress checkpoint
 
-Partial code published for continued development. Known issues: STATUS.md.
+MC Proxy integration for agent compression with tool retrieval, session management, and HTTP API endpoints. Known issues: STATUS.md.
 
 ## 1.0.0 — work-in-progress checkpoint
 
-Partial code published for continued development. Known issues: STATUS.md.
+MC Proxy integration for agent compression with tool retrieval, session management, and HTTP API endpoints. Known issues: STATUS.md.
 
 All notable changes to this project will be documented in this file.
 

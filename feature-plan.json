@@ -77,7 +77,7 @@
     {
       "id": "mcp-proxy-integration",
       "title": "MCP Proxy Integration for Agent Compression",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "MCP server implementation for tool retrieval",
         "Proxy mode that intercepts agent requests",
