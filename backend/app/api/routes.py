@@ -4,8 +4,9 @@ from typing import Optional, Dict, Any, List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 from datetime import datetime
+import uuid
 
-from backend.app.services.compression import get_compressor, CompressionResult, CompressionProfile
+from backend.app.services.compression import get_compressor, CompressionResult, CompressionProfile, CompressionMode
 from backend.app.models import AgentFramework
 
 router = APIRouter()
@@ -70,3 +71,33 @@ class HealthResponse(BaseModel):
 @router.get("/health", response_model=HealthResponse)
 async def health_check():
     return HealthResponse(status="healthy", version="1.0.0", timestamp=datetime.utcnow())
+
+
+@router.post(
+    "/compress",
+    response_model=CompressionResponse,
+    summary="Compress text using caveman vocabulary",
+)
+async def compress_text(
+    request: CompressionRequest,
+):
+    """Compress text using the caveman-style token compressor."""
+    compressor = get_compressor(
+        mode=CompressionMode.COMPRESS,
+        profile=request.profile,
+    )
+    session_id = str(uuid.uuid4())[:12]
+    request_id = str(uuid.uuid4())[:12]
+    result: CompressionResult = compressor.compress(
+        request.text, session_id, request_id
+    )
+    return CompressionResponse(
+        session_id=session_id,
+        compressed_text=result.compressed_text,
+        recovery_ref=result.recovery_ref,
+        tokens_before=result.tokens_before,
+        tokens_after=result.tokens_after,
+        tokens_saved=result.tokens_saved,
+        compression_ratio=result.compression_ratio,
+        profile=request.profile,
+    )
