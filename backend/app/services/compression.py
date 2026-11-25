@@ -523,7 +523,7 @@ class CavemanCompressor:
             recovery_ref=recovery_ref,
         )
 
-    def recover(self, compressed_text: str, recovery_ref: str) -> Optional[str]:
+    def recover(self, compressed_text: str, recovery_ref: str) -> str:
         """Attempt to recover original text from compressed using recovery store."""
         # Look up original text from recovery store
         original = _recovery_store.get(recovery_ref)
@@ -533,7 +533,7 @@ class CavemanCompressor:
         recovered = compressed_text
         for caveman, original_term in REVERSE_VOCABULARY.items():
             recovered = re.sub(rf"\b{re.escape(caveman)}\b", original_term, recovered, flags=re.IGNORECASE)
-        return recovered if recovered != compressed_text else None
+        return recovered
 
 
 # Profile configurations
